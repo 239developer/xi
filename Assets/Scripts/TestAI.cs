@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class NPCAI : Interactable
+public class TestAI : NPCAI
 {
-    public int facingDirection = 0;
+    void Update()
+    {
+        
+    }
 }

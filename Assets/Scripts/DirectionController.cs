@@ -6,7 +6,7 @@ public class DirectionController : MonoBehaviour
 {
     public string sheetName;
     public bool isPlayer = false;
-    public int direction = 0;
+    private int direction = 0;
     private SpriteRenderer sr;
     private Sprite[] sprites;
 
