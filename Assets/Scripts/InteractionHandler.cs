@@ -3,27 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractionHandler : MonoBehaviour
-{
+public class InteractionHandler : MonoBehaviour //must be on the player
+{ 
     public static bool interacting = false;
+    public static int currentType = InteractionType.nill;
+    public float maxDist = 3f;
     public RectTransform message;
-    private int currentType = InteractionType.nill;
     private Camera cam;
     private Interactable currentObject;
 
     void Start()
     {
         interacting = false;
+        currentType = InteractionType.nill;
         cam = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
     }
 
     void Update()
     {
-        Vector2 mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.up, 0.001f);
+        
 
         if(!interacting)
         {
+            Vector2 mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 playerPosition = transform.position; 
+            RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.up, 0.001f);
             try
             {
                 switch(hit.collider.tag)
@@ -45,6 +49,7 @@ public class InteractionHandler : MonoBehaviour
 
         if(!interacting && currentType > InteractionType.none)
         {
+            message.GetComponent<MessageThing>().SetText();
             message.gameObject.SetActive(true);
             message.anchoredPosition = Input.mousePosition;
             if(Input.GetKeyDown(KeyCode.E))
