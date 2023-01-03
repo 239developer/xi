@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class InterpolatePosition : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Transform parent;
+    public float k1 = 3f;
+    public float k2 = 2f;
+    
+    private Vector2 velocity = Vector2.zero;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        transform.position += (Vector3)(Time.deltaTime * velocity);
+        Vector2 dr = parent.position - transform.position;
+        velocity = k1 * dr + k2 * dr * dr.magnitude;
     }
 }
