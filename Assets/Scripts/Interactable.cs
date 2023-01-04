@@ -4,17 +4,27 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    public GameObject window;
+    public Material defaultMaterial;
+    public Material selectedMaterial;
+    private int cycle = -1;
+    private bool selected = false;
 
-    public void OpenWindow()
+    public void StartInteraction()
     {
-        window.SetActive(true);
-        InteractionHandler.interacting = true;
+        cycle = InteractionHandler.cycle;
+        GetComponent<SpriteRenderer>().material = selectedMaterial;
+        selected = true;
     }
 
-    public void CloseWindow()
+    public void EndInteraction()
     {
-        window.SetActive(false);
-        InteractionHandler.interacting = false;
+        GetComponent<SpriteRenderer>().material = defaultMaterial;
+        selected = false;
+    }
+
+    void Update()
+    {
+        if(selected && cycle != InteractionHandler.cycle)
+            EndInteraction();
     }
 }

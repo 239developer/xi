@@ -8,6 +8,6 @@ public class MessageThing : MonoBehaviour
 
     public void SetText()
     {
-        text.text = "Press E to talk";
+        text.text = "Press E";
     }
 }

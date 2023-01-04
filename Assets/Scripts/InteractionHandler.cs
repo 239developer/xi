@@ -7,10 +7,11 @@ public class InteractionHandler : MonoBehaviour //must be on the player
 { 
     public static bool interacting = false;
     public static int currentType = InteractionType.nill;
+    public static int cycle = 0;
     public float maxDist = 3f;
     public RectTransform message;
     private Camera cam;
-    private Interactable currentObject;
+    private GameObject currentObject;
 
     void Start()
     {
@@ -35,15 +36,23 @@ public class InteractionHandler : MonoBehaviour //must be on the player
                     case "NPC":
                         currentType = InteractionType.NPC;
                         break;
+                    case "Obtainable":
+                        currentType = InteractionType.obtainable;
+                        break;
                     default:
                         currentType = InteractionType.none;
                         break;
                 }
-                currentObject = hit.collider.GetComponent<Interactable>();
+                if(currentObject != hit.collider.gameObject)
+                {
+                    currentObject = hit.collider.gameObject;
+                    cycle++;
+                }
             }
             catch
             {
                 currentType = InteractionType.nill;
+                cycle++;
             }
         }
 
@@ -52,9 +61,15 @@ public class InteractionHandler : MonoBehaviour //must be on the player
             message.GetComponent<MessageThing>().SetText();
             message.gameObject.SetActive(true);
             message.anchoredPosition = Input.mousePosition;
+            currentObject.GetComponent<Interactable>().StartInteraction();
             if(Input.GetKeyDown(KeyCode.E))
             {
-                currentObject.OpenWindow();
+                switch(currentType)
+                {
+                    case InteractionType.NPC:
+                        currentObject.GetComponent<NPCAI>().OpenWindow();
+                        break;
+                } 
             }
         }
         else

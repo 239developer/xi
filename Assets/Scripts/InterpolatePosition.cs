@@ -6,7 +6,7 @@ public class InterpolatePosition : MonoBehaviour
 {
     public Transform parent;
     public float k1 = 3f;
-    public float k2 = 2f;
+    public float k2 = 4f;
     
     private Vector2 velocity = Vector2.zero;
 
